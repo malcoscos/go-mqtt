@@ -1,14 +1,15 @@
-package main
+package main //mainパッケージであることを宣言
 
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 func main() {
-	opts := mqtt.NewClientOptions()
+	opts := mqtt.NewClientOptions() //
 	opts.AddBroker("tcp://localhost:1883")
 	c := mqtt.NewClient(opts)
 
@@ -23,6 +24,6 @@ func main() {
 	}
 
 	c.Disconnect(250)
-
+	http.ListenAndServe(":8080", nil)
 	fmt.Println("Complete publish")
 }

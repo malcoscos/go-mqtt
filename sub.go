@@ -10,19 +10,26 @@ import (
 )
 
 func main() {
+
 	msgCh := make(chan mqtt.Message)
+
+	// importしたmqttのstructで定義されたMessageHandlerに関数を渡す
 	var f mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
+		// msgChに対してmsgを送信
 		msgCh <- msg
 	}
+
 	opts := mqtt.NewClientOptions()
+
 	opts.AddBroker("tcp://localhost:1883")
+
 	c := mqtt.NewClient(opts)
 
 	if token := c.Connect(); token.Wait() && token.Error() != nil {
 		log.Fatalf("Mqtt error: %s", token.Error())
 	}
 
-	if subscribeToken := c.Subscribe("go-mqtt/sample", 0, f); subscribeToken.Wait() && subscribeToken.Error() != nil {
+	if subscribeToken := c.Subscribe("go-mqtt/sample,", 0, f); subscribeToken.Wait() && subscribeToken.Error() != nil {
 		log.Fatal(subscribeToken.Error())
 	}
 
