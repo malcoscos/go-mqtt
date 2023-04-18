@@ -19,7 +19,6 @@ func main() {
 	if token := c.Connect(); token.Wait() && token.Error() != nil {
 		log.Fatalf("Mqtt error: %s", token.Error())
 	}
-
 	// clientからosのシステムを利用してパケットをbrokerにstoreする
 	for i := 0; i < 5; i++ {
 		text := fmt.Sprintf("this is msg #%d!", i)
